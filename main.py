@@ -4,6 +4,7 @@ Titre : Jeu 2048
 Autheur : Ryan Bersier
 Date de dernière modification : 10.03.23
 """
+
 #import de tkinter
 from tkinter import *
 import tkinter.font
