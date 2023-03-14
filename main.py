@@ -44,44 +44,45 @@ def key_press(event):
 
 #gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
-        for line in range(len(table2)):
-            table2[line] = Mix(table2[line], False, 0)
+        table2[line] = Mix(table2[line], False, 0)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
-        for line in range(len(table2)):
-            table2[line] = Mix(table2[line], True, 0)
+        table2[line] = Mix(table2[line], True, 0)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
-        for line in range(len(table2)):
-            for col in range(len(table2[line])):
-                table2[line][col] = Mix(table2[line][col], False, 1)
+        table2[line][col] = Mix(table2[line][col], False, 1)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 #bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
-        for line in range(len(table2)):
-            for col in range(len(table2[line])):
-                table2[line][col] = Mix(table2[line][col], True, 1)
+        table2[line][col] = Mix(table2[line][col], True, 1)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #fonction sur l'addition des puissance de 2 et supression du vide
 def Mix(list, rev, id):
-
+    for col in range(len(pos)):
+        for obj in range(len(pos[col]):
+            if id == 0:
+                if pos[obj][col] != 0:
+                    temp_col.append(pos[obj][col])
+            else:
+                if pos[col][obj] != 0:
+                    temp_col.append(pos[col][obj])
 #tassage de gauche
         if "" in list:
             list.remove("")
-        for obj in range(len(list) - 1):
+        for obj in range(len(temp_col))
             if list[obj] == list[obj + 1]:
                 list[obj] += list[obj + 1]
                 list[obj + 1] = ""
