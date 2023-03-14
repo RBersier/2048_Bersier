@@ -11,6 +11,7 @@ import tkinter.font
 
 #definitiom des variable
 nb = 0
+temp_col = []
 
 #definition des puissance de 2
 power2 = [2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4,
@@ -44,68 +45,60 @@ def key_press(event):
 
 #gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
-        table2[line] = Mix(table2[line], False, 0)
+        Mix(False, 1)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
-        table2[line] = Mix(table2[line], True, 0)
+        Mix(True, 1)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
-        table2[line][col] = Mix(table2[line][col], False, 1)
+        Mix(False, 0)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 #bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
-        table2[line][col] = Mix(table2[line][col], True, 1)
+        Mix(True, 0)
         refrech()
         nb += 1
         print(f"vous avez {nb} mouvements")
 
 #fonction sur l'addition des puissance de 2 et supression du vide
-def Mix(list, rev, id):
-    for col in range(len(pos)):
-        for obj in range(len(pos[col]):
+def Mix(rev, id):
+    for col in range(len(table2)):
+        for obj in range(len(table2[col])):
             if id == 0:
-                if pos[obj][col] != 0:
-                    temp_col.append(pos[obj][col])
+                if table2[obj][col] != 0:
+                    temp_col.append(table2[obj][col])
             else:
-                if pos[col][obj] != 0:
-                    temp_col.append(pos[col][obj])
-#tassage de gauche
-        if "" in list:
-            list.remove("")
-        for obj in range(len(temp_col))
-            if list[obj] == list[obj + 1]:
-                list[obj] += list[obj + 1]
-                list[obj + 1] = ""
-
-#tassege du haut
-                """
-            for row in range(len(list) - 1):
-                if list[obj][row] != 0:
-                    list[row][obj] += list[row + 1][obj]
-                    list[row][obj] = ""
-                    """
-        #permet de retirer le vide
-        while "" in list:
-            list.remove("")
-
-#tassage droite
-        while len(list) < 4:
+                if table2[col][obj] != 0:
+                    temp_col.append(table2[col][obj])
+        if "" in temp_col:
+            temp_col.remove("")
+        for obj in range(len(temp_col) - 1 ):
+            if temp_col[obj] == temp_col[obj + 1]:
+                temp_col[obj] += temp_col[obj + 1]
+                temp_col[obj + 1] = ""
+        while "" in temp_col:
+            temp_col.remove("")
+        while len(temp_col) < 4:
             if rev:
-                list.insert(0, "")
+                temp_col.insert(0, "")
             else:
-                list.append("")
-
-        return list
+                temp_col.append("")
+        for obj in range(len(table2[col])):
+            if id == 0:
+                table2[obj][col] = temp_col[obj]
+            else:
+                table2[col][obj] = temp_col[obj]
+        temp_col.clear()
 
 #définition de la fenetre et ces paramètre
 if __name__ == '__main__':
