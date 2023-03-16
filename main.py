@@ -13,7 +13,9 @@ import tkinter.font
 nb_move = 0
 temp_col = []
 nb_score = 0
-nb_highscore = 0
+file = open("data.txt")
+nb_highscore = int(file.read())
+file.close()
 
 #definition des puissance de 2
 power2 = [2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4,
@@ -122,6 +124,11 @@ if __name__ == '__main__':
                 except:
                     labels[line][col].config(bg="lightgray")
 
+        if nb_score > nb_highscore:
+            file = open("data.txt")
+            file.write(f"{nb_score}")
+            file.close()
+
         #frame du titre
         frame2 = Frame(win, bg="grey")
         frame2.grid(row= 1, column= 10)
@@ -134,18 +141,21 @@ if __name__ == '__main__':
         highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
         highscore.grid(row= 1, column= 1)
         score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
-        score.grid(row= 1, column= 5, padx= 100)
+        score.grid(row= 1, column= 5, padx= 75)
         score = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
         score.grid(row= 1, column= 10)
 
         #frame du bouton reset
         frame4 = Frame(win, bg="grey")
         frame4.grid(row= 10, column= 10)
-        reset = Button(frame4, text="Reset", font=("Helvetica", 12), bg="grey", fg="white")
+        reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
         reset.grid(row= 10, column= 10, pady=10)
+
 #permet la détection d'appuie de touche
     win.bind('<Key>', key_press)
+
 #dernier mise à jour de la grile avant affichage
     refrech()
+
 #affichage de la fenêtre
     win.mainloop()
