@@ -33,9 +33,9 @@ colors = {2 ** 1 : "#FF9999", 2 ** 2 : "#FF7777", 2 ** 3 : "#FF5555", 2 ** 4 : "
 
 #contenu de la grille du 2048
 table2 = [[power2[0], power2[0], power2[1], power2[2]],
-          [power2[4], power2[4], power2[5], power2[6]],
-          [power2[8], power2[8], power2[9], power2[10]],
-          ["", "", "", ""]]
+          [power2[6], power2[5], power2[4], power2[3]],
+          [power2[7], power2[8], power2[9], power2[10]],
+          [power2[14], power2[13], power2[12], power2[11]]]
 
 #définiton du tableau du 2048
 labels = [[None, None, None, None],
@@ -109,6 +109,7 @@ if __name__ == '__main__':
 
 #definition des paramêtre du tableau et ajout des couleur en fonction de la case
     def refrech():
+        global nb_highscore
         #frame de la grille
         frame1 = Frame(win, bg="grey")
         frame1.grid(row=5, column=10)
@@ -116,6 +117,7 @@ if __name__ == '__main__':
             for col in range(len(table2[line])):
                 labels[line][col] = tkinter.Label(frame1, text=table2[line][col], width=6, height=3, borderwidth=1, relief="solid", font=("Arial", 24), bg="lightgray")
                 labels[line][col].grid(row=line + 5, column=col)
+
                 #defini les couleur
                 try:
                     labels[line][col].config(bg=colors[table2[line][col]])
@@ -124,10 +126,16 @@ if __name__ == '__main__':
                 except:
                     labels[line][col].config(bg="lightgray")
 
+        #gestion du highscore
         if nb_score > nb_highscore:
-            file = open("data.txt")
+            file = open("data.txt", "w")
             file.write(f"{nb_score}")
             file.close()
+
+        #definition du highscore
+        file = open("data.txt")
+        nb_highscore = int(file.read())
+        file.close()
 
         #frame du titre
         frame2 = Frame(win, bg="grey")
@@ -138,16 +146,20 @@ if __name__ == '__main__':
         #frame des statistique
         frame3 = Frame(win, bg="grey")
         frame3.grid(row= 2, column= 10)
+
+        #labels des statistique
         highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
         highscore.grid(row= 1, column= 1)
         score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
-        score.grid(row= 1, column= 5, padx= 75)
-        score = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
-        score.grid(row= 1, column= 10)
+        score.grid(row= 1, column= 5, padx= 50)
+        movements = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
+        movements.grid(row= 1, column= 10)
 
         #frame du bouton reset
         frame4 = Frame(win, bg="grey")
         frame4.grid(row= 10, column= 10)
+
+        #bouton pour reset
         reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
         reset.grid(row= 10, column= 10, pady=10)
 
