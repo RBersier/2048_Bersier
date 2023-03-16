@@ -10,8 +10,10 @@ from tkinter import *
 import tkinter.font
 
 #definitiom des variable
-nb = 0
+nb_move = 0
 temp_col = []
+nb_score = 0
+nb_highscore = 0
 
 #definition des puissance de 2
 power2 = [2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4,
@@ -41,37 +43,30 @@ labels = [[None, None, None, None],
 
 #fonction pour les touche et le déplacement des case
 def key_press(event):
-    global nb
+    global nb_move
 
 #gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
         Mix(False, 1)
         refrech()
-        nb += 1
-        print(f"vous avez {nb} mouvements")
 
 #droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
         Mix(True, 1)
         refrech()
-        nb += 1
-        print(f"vous avez {nb} mouvements")
 
 #haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
         Mix(False, 0)
         refrech()
-        nb += 1
-        print(f"vous avez {nb} mouvements")
 #bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
         Mix(True, 0)
         refrech()
-        nb += 1
-        print(f"vous avez {nb} mouvements")
 
 #fonction sur l'addition des puissance de 2 et supression du vide
 def Mix(rev, id):
+    global nb_score, nb_move
     for col in range(len(table2)):
         for obj in range(len(table2[col])):
             if id == 0:
@@ -80,11 +75,12 @@ def Mix(rev, id):
             else:
                 if table2[col][obj] != 0:
                     temp_col.append(table2[col][obj])
-        if "" in temp_col:
+        while "" in temp_col:
             temp_col.remove("")
-        for obj in range(len(temp_col) - 1 ):
+        for obj in range(len(temp_col) - 1):
             if temp_col[obj] == temp_col[obj + 1]:
                 temp_col[obj] += temp_col[obj + 1]
+                nb_score += temp_col[obj]
                 temp_col[obj + 1] = ""
         while "" in temp_col:
             temp_col.remove("")
@@ -99,21 +95,25 @@ def Mix(rev, id):
             else:
                 table2[col][obj] = temp_col[obj]
         temp_col.clear()
+    nb_move += 1
 
 #définition de la fenetre et ces paramètre
 if __name__ == '__main__':
     # window creation :
     win = Tk()
-    win.geometry("500x500")
+    win.geometry("475x600")
     win.title('2048')
     win.configure(bg="grey")
 
 #definition des paramêtre du tableau et ajout des couleur en fonction de la case
     def refrech():
+        #frame de la grille
+        frame1 = Frame(win, bg="grey")
+        frame1.grid(row=5, column=10)
         for line in range(len(table2)):
             for col in range(len(table2[line])):
-                labels[line][col] = tkinter.Label(text=table2[line][col], width=6, height=3, borderwidth=1, relief="solid", font=("Arial", 24), bg="lightgray")
-                labels[line][col].grid(row=line, column=col)
+                labels[line][col] = tkinter.Label(frame1, text=table2[line][col], width=6, height=3, borderwidth=1, relief="solid", font=("Arial", 24), bg="lightgray")
+                labels[line][col].grid(row=line + 5, column=col)
                 #defini les couleur
                 try:
                     labels[line][col].config(bg=colors[table2[line][col]])
@@ -121,6 +121,28 @@ if __name__ == '__main__':
                         labels[line][col].config(fg="white")
                 except:
                     labels[line][col].config(bg="lightgray")
+
+        #frame du titre
+        frame2 = Frame(win, bg="grey")
+        frame2.grid(row= 1, column= 10)
+        labels2048 = Label(frame2, text="2048", font=("Helvetica", 48), bg="grey", fg="white")
+        labels2048.grid(row= 1, column= 10)
+
+        #frame des statistique
+        frame3 = Frame(win, bg="grey")
+        frame3.grid(row= 2, column= 10)
+        highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
+        highscore.grid(row= 1, column= 1)
+        score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
+        score.grid(row= 1, column= 5, padx= 100)
+        score = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
+        score.grid(row= 1, column= 10)
+
+        #frame du bouton reset
+        frame4 = Frame(win, bg="grey")
+        frame4.grid(row= 10, column= 10)
+        reset = Button(frame4, text="Reset", font=("Helvetica", 12), bg="grey", fg="white")
+        reset.grid(row= 10, column= 10, pady=10)
 #permet la détection d'appuie de touche
     win.bind('<Key>', key_press)
 #dernier mise à jour de la grile avant affichage
