@@ -49,25 +49,25 @@ def key_press(event):
 
 #gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
-        Mix(False, 1)
-        refrech()
+        mix(False, 1)
+        refresh()
 
 #droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
-        Mix(True, 1)
-        refrech()
+        mix(True, 1)
+        refresh()
 
 #haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
-        Mix(False, 0)
-        refrech()
+        mix(False, 0)
+        refresh()
 #bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
-        Mix(True, 0)
-        refrech()
+        mix(True, 0)
+        refresh()
 
 #fonction sur l'addition des puissance de 2 et supression du vide
-def Mix(rev, id):
+def mix(rev, id):
     global nb_score, nb_move
     for col in range(len(table2)):
         for obj in range(len(table2[col])):
@@ -98,6 +98,48 @@ def Mix(rev, id):
                 table2[col][obj] = temp_col[obj]
         temp_col.clear()
     nb_move += 1
+def highscore():
+    global nb_highscore
+    #gestion du highscore
+    if nb_score > nb_highscore:
+        file = open("data.txt", "w")
+        file.write(f"{nb_score}")
+        file.close()
+
+    #definition du highscore
+    file = open("data.txt")
+    nb_highscore = int(file.read())
+    file.close()
+def graphics():
+    #frame de la grille
+    frame1 = Frame(win, bg="grey")
+    frame1.grid(row=5, column=10)
+
+    #frame du titre
+    frame2 = Frame(win, bg="grey")
+    frame2.grid(row= 1, column= 10)
+    labels2048 = Label(frame2, text="2048", font=("Helvetica", 48), bg="grey", fg="white")
+    labels2048.grid(row= 1, column= 10)
+
+    #frame des statistique
+    frame3 = Frame(win, bg="grey")
+    frame3.grid(row= 2, column= 10)
+
+    #labels des statistique
+    highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
+    highscore.grid(row= 1, column= 1)
+    score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
+    score.grid(row= 1, column= 5, padx= 50)
+    movements = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
+    movements.grid(row= 1, column= 10)
+
+    #frame du bouton reset
+    frame4 = Frame(win, bg="grey")
+    frame4.grid(row= 10, column= 10)
+
+    #bouton pour reset
+    reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
+    reset.grid(row= 10, column= 10, pady=10)
 
 #définition de la fenetre et ces paramètre
 if __name__ == '__main__':
@@ -108,7 +150,7 @@ if __name__ == '__main__':
     win.configure(bg="grey")
 
 #definition des paramêtre du tableau et ajout des couleur en fonction de la case
-    def refrech():
+    def refresh():
         global nb_highscore
         #frame de la grille
         frame1 = Frame(win, bg="grey")
@@ -126,48 +168,18 @@ if __name__ == '__main__':
                 except:
                     labels[line][col].config(bg="lightgray")
 
-        #gestion du highscore
-        if nb_score > nb_highscore:
-            file = open("data.txt", "w")
-            file.write(f"{nb_score}")
-            file.close()
+        #gère la partie du highscore
+        highscore()
 
-        #definition du highscore
-        file = open("data.txt")
-        nb_highscore = int(file.read())
-        file.close()
-
-        #frame du titre
-        frame2 = Frame(win, bg="grey")
-        frame2.grid(row= 1, column= 10)
-        labels2048 = Label(frame2, text="2048", font=("Helvetica", 48), bg="grey", fg="white")
-        labels2048.grid(row= 1, column= 10)
-
-        #frame des statistique
-        frame3 = Frame(win, bg="grey")
-        frame3.grid(row= 2, column= 10)
-
-        #labels des statistique
-        highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
-        highscore.grid(row= 1, column= 1)
-        score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
-        score.grid(row= 1, column= 5, padx= 50)
-        movements = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
-        movements.grid(row= 1, column= 10)
-
-        #frame du bouton reset
-        frame4 = Frame(win, bg="grey")
-        frame4.grid(row= 10, column= 10)
-
-        #bouton pour reset
-        reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
-        reset.grid(row= 10, column= 10, pady=10)
+        #gère la partie graphique du logiciel
+        graphics()
 
 #permet la détection d'appuie de touche
     win.bind('<Key>', key_press)
 
 #dernier mise à jour de la grile avant affichage
-    refrech()
+    refresh()
+    graphics()
 
 #affichage de la fenêtre
     win.mainloop()
