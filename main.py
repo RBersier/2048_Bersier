@@ -2,7 +2,8 @@
 Module : MA-20
 Titre : Jeu 2048
 Autheur : Ryan Bersier
-Date de dernière modification : 10.03.23
+Date de dernière modification : 17.03.23
+Version : 0.2
 """
 
 #import de tkinter
