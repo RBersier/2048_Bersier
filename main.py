@@ -146,6 +146,12 @@ def graphics():
     reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
     reset.grid(row=10, column=10, pady=10)
 
+# gère l'appariton de 2 et de 4
+def random():
+
+
+# pour les démmarage
+def start_game():
 
 # définition de la fenêtre et ces paramètres
 if __name__ == '__main__':
