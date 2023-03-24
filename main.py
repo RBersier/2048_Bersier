@@ -9,6 +9,7 @@ Version : 0.2
 # import de tkinter
 from tkinter import *
 import tkinter.font
+import random
 
 # definitiom des variable
 nb_move = 0
@@ -17,6 +18,7 @@ nb_score = 0
 file = open("data.txt")
 nb_highscore = int(file.read())
 file.close()
+i = 0
 
 # definition des puissances de 2
 power2 = [2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4,
@@ -33,10 +35,10 @@ colors = {2 ** 1: "#FF9999", 2 ** 2: "#FF7777", 2 ** 3: "#FF5555", 2 ** 4: "#FF0
           2 ** 17: "#000000"}
 
 # contenu de la grille du 2048
-table2 = [[power2[0], power2[0], power2[1], power2[2]],
-          [power2[6], power2[5], power2[4], power2[3]],
-          [power2[7], power2[8], power2[9], power2[10]],
-          [power2[14], power2[13], power2[12], power2[11]]]
+table2 = [["", "", "", ""],
+          ["", "", "", ""],
+          ["", "", "", ""],
+          ["", "", "", ""]]
 
 # définiton du tableau du 2048
 labels = [[None, None, None, None],
@@ -51,21 +53,19 @@ def key_press(event):
     # gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
         mix(False, 1)
-        refresh()
 
     # droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
         mix(True, 1)
-        refresh()
 
     # haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
         mix(False, 0)
-        refresh()
+
     # bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
         mix(True, 0)
-        refresh()
+
 
 # fonction sur l'addition des puissances de 2 et suppression du vide
 def mix(rev, id):
@@ -99,6 +99,8 @@ def mix(rev, id):
                 table2[col][obj] = temp_col[obj]
         temp_col.clear()
     nb_move += 1
+    random_nb()
+    refresh()
 
 # fonction de calcul du highscore
 def highscore():
@@ -114,8 +116,68 @@ def highscore():
     nb_highscore = int(file.read())
     file.close()
 
-# ajout des frame et texte au niveau graphique de l'application
-def graphics():
+def refresh_graphics():
+    global score_label, highscore_label, movements_label, nb_score, nb_move, nb_highscore
+
+    score_label.config(text=f"score : {nb_score}")
+    movements_label.config(text=f"movements : {nb_move}")
+    highscore_label.config(text=f"highscore : {nb_highscore}")
+
+# gère l'appariton de 2 et de 4
+def random_nb():
+    global i
+    x = random.randint(0, 9)
+    while True:
+        y = random.randint(0, 3)
+        z = random.randint(0, 3)
+        for line in range(len(table2)):
+            for col in range(len(table2[line])):
+                if table2[line][col] == "":
+                    i += 1
+        if i == 0:
+            break
+        if table2[y][z] == "":
+            if x == 0:
+                table2[y][z] = power2[1]
+                break
+            else:
+                table2[y][z] = power2[0]
+                break
+    refresh()
+
+# pour les démmarage
+def start_game():
+    if table2 == [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""]]:
+        random_nb()
+        random_nb()
+
+# gère le restart du jeu
+def reset_game():
+    global nb_score, table2, nb_move, frame3, score_label, movements_label
+    nb_score = 0
+    nb_move = 0
+    table2.clear()
+    table2 = [["", "", "", ""],
+              ["", "", "", ""],
+              ["", "", "", ""],
+              ["", "", "", ""]]
+
+    refresh()
+
+    score_label.config(text=f"score : {nb_score}")
+    movements_label.config(text=f"movements : {nb_move}")
+
+    start_game()
+
+# définition de la fenêtre et ces paramètres
+if __name__ == '__main__':
+
+    # window creation :
+    win = Tk()
+    win.geometry("475x600")
+    win.title('2048')
+    win.configure(bg="grey")
+
     # frame de la grille
     frame1 = Frame(win, bg="grey")
     frame1.grid(row=5, column=10)
@@ -131,35 +193,20 @@ def graphics():
     frame3.grid(row=2, column=10)
 
     # labels des statistiques
-    highscore = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
-    highscore.grid(row=1, column=1)
-    score = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
-    score.grid(row=1, column=5, padx=50)
-    movements = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
-    movements.grid(row=1, column=10)
+    highscore_label = Label(frame3, text=f"highscore : {nb_highscore}", font=("Helvetica", 12), bg="grey", fg="white")
+    highscore_label.grid(row=1, column=1)
+    score_label = Label(frame3, text=f"score : {nb_score}", font=("Helvetica", 12), bg="grey", fg="white")
+    score_label.grid(row=1, column=5, padx=50)
+    movements_label = Label(frame3, text=f"movements : {nb_move}", font=("Helvetica", 12), bg="grey", fg="white")
+    movements_label.grid(row=1, column=10)
 
     # frame du bouton reset
     frame4 = Frame(win, bg="grey")
     frame4.grid(row=10, column=10)
 
     # bouton pour reset
-    reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white")
+    reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white", command=reset_game)
     reset.grid(row=10, column=10, pady=10)
-
-# gère l'appariton de 2 et de 4
-def random():
-
-
-# pour les démmarage
-def start_game():
-
-# définition de la fenêtre et ces paramètres
-if __name__ == '__main__':
-    # window creation :
-    win = Tk()
-    win.geometry("475x600")
-    win.title('2048')
-    win.configure(bg="grey")
 
     # definition des paramètres du tableau et ajout des couleurs en fonction de la case
     def refresh():
@@ -185,14 +232,14 @@ if __name__ == '__main__':
         highscore()
 
         # gère la partie graphique du logiciel
-        graphics()
+        refresh_graphics()
 
     # permet la détection d'appui de touche
     win.bind('<Key>', key_press)
 
     # dernier mise à jour de la grile avant affichage
     refresh()
-    graphics()
+    start_game()
 
     # affichage de la fenêtre
     win.mainloop()
