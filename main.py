@@ -69,6 +69,18 @@ def key_press(event):
         mix(True, 0)
 
 
+def movement_checker():
+    for row in range(4):
+        for col in range(4):
+            if table2[row][col] == 0:
+                return True
+            if row < 4 - 1 and table2[row][col] == table2[row+1][col]:
+                return True
+            if col < 4 - 1 and table2[row][col] == table2[row][col+1]:
+                return True
+    return False
+
+
 # fonction sur l'addition des puissances de 2 et suppression du vide
 def mix(rev, id):
     global nb_score, nb_move
@@ -104,6 +116,7 @@ def mix(rev, id):
     random_nb()
     refresh()
     win_game()
+    lose_game()
 
 # fonction de calcul du highscore
 def highscore():
@@ -207,6 +220,15 @@ def win_game():
         # win que 1 seule fois par game
         w += 1
 
+def lose_game():
+    mc = movement_checker()
+    if not mc:
+        answer = messagebox.askquestion("Lose", "You lose, you want to retry for reaching 2048 ?")
+        if answer == "Yes":
+            reset_game()
+        elif answer == "No":
+            win.destroy()
+
 
 # définition de la fenêtre et ces paramètres
 if __name__ == '__main__':
@@ -250,8 +272,6 @@ if __name__ == '__main__':
     # definition des paramètres du tableau et ajout des couleurs en fonction de la case
     def refresh():
         global nb_highscore
-        # variable de la grille temporaire
-        table2_temp = table2
         # frame de la grille
         frame1 = Frame(win, bg="grey")
         frame1.grid(row=5, column=10)
