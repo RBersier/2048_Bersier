@@ -8,6 +8,7 @@ Version : 0.2
 
 # import de tkinter
 from tkinter import *
+from tkinter import messagebox
 import tkinter.font
 import random
 
@@ -19,6 +20,7 @@ file = open("data.txt")
 nb_highscore = int(file.read())
 file.close()
 i = 0
+w = 0
 
 # definition des puissances de 2
 power2 = [2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4,
@@ -35,7 +37,7 @@ colors = {2 ** 1: "#FF9999", 2 ** 2: "#FF7777", 2 ** 3: "#FF5555", 2 ** 4: "#FF0
           2 ** 17: "#000000"}
 
 # contenu de la grille du 2048
-table2 = [["", "", "", ""],
+table2 = [[1024, 1024, "", ""],
           ["", "", "", ""],
           ["", "", "", ""],
           ["", "", "", ""]]
@@ -101,6 +103,7 @@ def mix(rev, id):
     nb_move += 1
     random_nb()
     refresh()
+    win_game()
 
 # fonction de calcul du highscore
 def highscore():
@@ -116,6 +119,7 @@ def highscore():
     nb_highscore = int(file.read())
     file.close()
 
+#gère les rafrechissement de la partie stat
 def refresh_graphics():
     global score_label, highscore_label, movements_label, nb_score, nb_move, nb_highscore
 
@@ -152,7 +156,7 @@ def start_game():
         random_nb()
 
 # gère le restart du jeu
-def reset_game():
+def reset_game(window = None):
     global nb_score, table2, nb_move, frame3, score_label, movements_label
     nb_score = 0
     nb_move = 0
@@ -161,13 +165,48 @@ def reset_game():
               ["", "", "", ""],
               ["", "", "", ""],
               ["", "", "", ""]]
-
     refresh()
-
+    if window != None:
+        win_win_game.destroy()
     score_label.config(text=f"score : {nb_score}")
     movements_label.config(text=f"movements : {nb_move}")
 
     start_game()
+
+def win_game():
+    global w, win_win_game
+    won = False
+    for line in range(len(table2)):
+        for col in range(len(table2[line])):
+            if table2[col][line] == power2[10] and w == 0:
+                won = True
+    if won:
+        win_win_game = Toplevel(win)
+        win_win_game.geometry("800x150")
+        win_win_game.title('gagner')
+        win_win_game.configure(bg="grey")
+
+        # frame du texte
+        frame5 = Frame(win_win_game, bg="grey")
+        frame5.pack()
+        labels_win = Label(frame5, text="Congratulations you won!!!", font=("Helvetica", 24), bg="grey", fg="white")
+        labels_win.pack()
+        labels_ask = Label(frame5, text="Now you have the choice to continue your game to go further than 2048, restart a game or leave the program", font=("Helvetica", 12), bg="grey", fg="white")
+        labels_ask.pack()
+
+        # frame des 3 boutons
+        frame6 = Frame(win_win_game, bg="grey")
+        frame6.pack(pady=30)
+        continue_win = Button(frame6, text="Continue", font=("Helvetica", 12), bg="grey", fg="white", command=win_win_game.destroy)
+        continue_win.pack(side=LEFT)
+        reset_win = Button(frame6, text="Restart", font=("Helvetica", 12), bg="grey", fg="white", command=lambda: reset_game(win_win_game))
+        reset_win.pack(side=LEFT, padx=50)
+        quit_win = Button(frame6, text="Leave", font=("Helvetica", 12), bg="grey", fg="white", command=win_win_game.destroy and win.destroy)
+        quit_win.pack(side=LEFT)
+
+        # win que 1 seule fois par game
+        w += 1
+
 
 # définition de la fenêtre et ces paramètres
 if __name__ == '__main__':
@@ -211,6 +250,8 @@ if __name__ == '__main__':
     # definition des paramètres du tableau et ajout des couleurs en fonction de la case
     def refresh():
         global nb_highscore
+        # variable de la grille temporaire
+        table2_temp = table2
         # frame de la grille
         frame1 = Frame(win, bg="grey")
         frame1.grid(row=5, column=10)
