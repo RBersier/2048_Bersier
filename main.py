@@ -37,7 +37,7 @@ colors = {2 ** 1: "#FF9999", 2 ** 2: "#FF7777", 2 ** 3: "#FF5555", 2 ** 4: "#FF0
           2 ** 17: "#000000"}
 
 # contenu de la grille du 2048
-table2 = [[1024, 1024, "", ""],
+table2 = [["", "", "", ""],
           ["", "", "", ""],
           ["", "", "", ""],
           ["", "", "", ""]]
@@ -47,6 +47,7 @@ labels = [[None, None, None, None],
           [None, None, None, None],
           [None, None, None, None],
           [None, None, None, None]]
+
 
 # fonction pour les touches et le déplacement des cases
 def key_press(event):
@@ -70,15 +71,16 @@ def key_press(event):
 
 
 def movement_checker():
-    for row in range(4):
-        for col in range(4):
-            if table2[row][col] == 0:
+    for row in range(len(table2)):
+        for col in range(len(table2[row])):
+            if table2[row][col] == "":
                 return True
             if row < 4 - 1 and table2[row][col] == table2[row+1][col]:
                 return True
             if col < 4 - 1 and table2[row][col] == table2[row][col+1]:
                 return True
     return False
+
 
 
 # fonction sur l'addition des puissances de 2 et suppression du vide
@@ -118,6 +120,7 @@ def mix(rev, id):
     win_game()
     lose_game()
 
+
 # fonction de calcul du highscore
 def highscore():
     global nb_highscore
@@ -132,7 +135,8 @@ def highscore():
     nb_highscore = int(file.read())
     file.close()
 
-#gère les rafrechissement de la partie stat
+
+# gère les rafrechissement de la partie stat
 def refresh_graphics():
     global score_label, highscore_label, movements_label, nb_score, nb_move, nb_highscore
 
@@ -140,27 +144,30 @@ def refresh_graphics():
     movements_label.config(text=f"movements : {nb_move}")
     highscore_label.config(text=f"highscore : {nb_highscore}")
 
+
 # gère l'appariton de 2 et de 4
 def random_nb():
     global i
-    x = random.randint(0, 9)
-    while True:
-        y = random.randint(0, 3)
-        z = random.randint(0, 3)
-        for line in range(len(table2)):
-            for col in range(len(table2[line])):
-                if table2[line][col] == "":
-                    i += 1
-        if i == 0:
-            break
-        if table2[y][z] == "":
-            if x == 0:
-                table2[y][z] = power2[1]
+    if movement_checker():
+        x = random.randint(0, 9)
+        while True:
+            y = random.randint(0, 3)
+            z = random.randint(0, 3)
+            for line in range(len(table2)):
+                for col in range(len(table2[line])):
+                    if table2[line][col] == "":
+                        i += 1
+            if i == 0:
                 break
-            else:
-                table2[y][z] = power2[0]
-                break
+            if table2[y][z] == "":
+                if x == 0:
+                    table2[y][z] = power2[1]
+                    break
+                else:
+                    table2[y][z] = power2[0]
+                    break
     refresh()
+
 
 # pour les démmarage
 def start_game():
@@ -168,8 +175,9 @@ def start_game():
         random_nb()
         random_nb()
 
+
 # gère le restart du jeu
-def reset_game(window = None):
+def reset_game(window=None):
     global nb_score, table2, nb_move, frame3, score_label, movements_label
     nb_score = 0
     nb_move = 0
@@ -185,6 +193,7 @@ def reset_game(window = None):
     movements_label.config(text=f"movements : {nb_move}")
 
     start_game()
+
 
 def win_game():
     global w, win_win_game
@@ -204,21 +213,27 @@ def win_game():
         frame5.pack()
         labels_win = Label(frame5, text="Congratulations you won!!!", font=("Helvetica", 24), bg="grey", fg="white")
         labels_win.pack()
-        labels_ask = Label(frame5, text="Now you have the choice to continue your game to go further than 2048, restart a game or leave the program", font=("Helvetica", 12), bg="grey", fg="white")
+        labels_ask = Label(frame5,
+                           text="Now you have the choice to continue your game to go further than 2048, restart a game or leave the program",
+                           font=("Helvetica", 12), bg="grey", fg="white")
         labels_ask.pack()
 
         # frame des 3 boutons
         frame6 = Frame(win_win_game, bg="grey")
         frame6.pack(pady=30)
-        continue_win = Button(frame6, text="Continue", font=("Helvetica", 12), bg="grey", fg="white", command=win_win_game.destroy)
+        continue_win = Button(frame6, text="Continue", font=("Helvetica", 12), bg="grey", fg="white",
+                              command=win_win_game.destroy)
         continue_win.pack(side=LEFT)
-        reset_win = Button(frame6, text="Restart", font=("Helvetica", 12), bg="grey", fg="white", command=lambda: reset_game(win_win_game))
+        reset_win = Button(frame6, text="Restart", font=("Helvetica", 12), bg="grey", fg="white",
+                           command=lambda: reset_game(win_win_game))
         reset_win.pack(side=LEFT, padx=50)
-        quit_win = Button(frame6, text="Leave", font=("Helvetica", 12), bg="grey", fg="white", command=win_win_game.destroy and win.destroy)
+        quit_win = Button(frame6, text="Leave", font=("Helvetica", 12), bg="grey", fg="white",
+                          command=win_win_game.destroy and win.destroy)
         quit_win.pack(side=LEFT)
 
         # win que 1 seule fois par game
         w += 1
+
 
 def lose_game():
     mc = movement_checker()
@@ -269,6 +284,7 @@ if __name__ == '__main__':
     reset = Button(frame4, text="Restart", font=("Helvetica", 12), bg="grey", fg="white", command=reset_game)
     reset.grid(row=10, column=10, pady=10)
 
+
     # definition des paramètres du tableau et ajout des couleurs en fonction de la case
     def refresh():
         global nb_highscore
@@ -294,6 +310,7 @@ if __name__ == '__main__':
 
         # gère la partie graphique du logiciel
         refresh_graphics()
+
 
     # permet la détection d'appui de touche
     win.bind('<Key>', key_press)
