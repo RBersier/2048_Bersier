@@ -2,11 +2,11 @@
 Module : MA-20
 Titre : Jeu 2048
 Autheur : Ryan Bersier
-Date de dernière modification : 17.03.23
-Version : 0.2
+Date de dernière modification : 02.04.23
+Version : 0.3
 """
 
-# import de tkinter
+# import des différentes bibliothèque
 from tkinter import *
 from tkinter import messagebox
 import tkinter.font
@@ -159,13 +159,14 @@ def random_nb():
                         i += 1
             if i == 0:
                 break
-            if table2[y][z] == "":
-                if x == 0:
-                    table2[y][z] = power2[1]
-                    break
-                else:
-                    table2[y][z] = power2[0]
-                    break
+            else:
+                if table2[y][z] == "":
+                    if x == 0:
+                        table2[y][z] = power2[1]
+                        break
+                    else:
+                        table2[y][z] = power2[0]
+                        break
     refresh()
 
 
@@ -239,9 +240,9 @@ def lose_game():
     mc = movement_checker()
     if not mc:
         answer = messagebox.askquestion("Lose", "You lose, you want to retry for reaching 2048 ?")
-        if answer == "Yes":
+        if answer == "yes":
             reset_game()
-        elif answer == "No":
+        elif answer == "no":
             win.destroy()
 
 
