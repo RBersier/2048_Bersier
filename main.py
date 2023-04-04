@@ -2,8 +2,8 @@
 Module : MA-20
 Titre : Jeu 2048
 Autheur : Ryan Bersier
-Date de dernière modification : 02.04.23
-Version : 0.3
+Date de dernière modification : 04.04.23
+Version : 1.0
 """
 
 # import des différentes bibliothèque
@@ -355,10 +355,8 @@ if __name__ == '__main__':
 
     # permet la détection d'appui de touche
     win.bind('<Key>', key_press)
-
     # dernier mise à jour de la grile avant affichage
     refresh()
     start_game()
-
     # affichage de la fenêtre
     win.mainloop()
