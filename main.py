@@ -88,36 +88,55 @@ def movement_checker():
 # Cette fonction mélange les cases d'une grille de jeu 2048
 def mix(rev, id):
     global nb_score, nb_move
+    # prev_positions_value stocke la valeur actuelle de 'table2', avant tout mélange, pour détecter un changement ultérieur.
+    prev_positions_value = [row[:] for row in table2]
+    # Pour chaque colonne ou ligne du tableau, on parcourt les objets et les colonnes/lignes en fonction de 'id'
     for col in range(len(table2)):
         for obj in range(len(table2[col])):
+            # Si id est 0, on travaille avec des colonnes.
             if id == 0:
+                # On ajoute l'élément à la liste temporaire s'il est différent de 0.
                 if table2[obj][col] != 0:
                     temp_col.append(table2[obj][col])
+            # Si id est différent de 0, on travaille avec des lignes.
             else:
+                # On ajoute l'élément à la liste temporaire s'il est différent de 0.
                 if table2[col][obj] != 0:
                     temp_col.append(table2[col][obj])
+        # On enlève les éléments vides de la liste temporaire.
         while "" in temp_col:
             temp_col.remove("")
+        # On fusionne les éléments identiques qui sont côte à côte dans la liste temporaire.
         for obj in range(len(temp_col) - 1):
             if temp_col[obj] == temp_col[obj + 1]:
                 temp_col[obj] += temp_col[obj + 1]
+                # On met à jour le score en ajoutant la valeur fusionnée.
                 nb_score += temp_col[obj]
                 temp_col[obj + 1] = ""
+        # On enlève les éléments vides de la liste temporaire.
         while "" in temp_col:
             temp_col.remove("")
+        # On ajoute des éléments vides à la liste temporaire jusqu'à ce qu'elle atteigne une longueur de 4.
         while len(temp_col) < 4:
             if rev:
+                # Si 'rev' est vrai, on ajoute l'élément vide au début de la liste.
                 temp_col.insert(0, "")
             else:
+                # Sinon, on ajoute l'élément vide à la fin de la liste.
                 temp_col.append("")
+        # On ajoute les éléments de la liste temporaire à la colonne ou à la ligne correspondante dans 'table2'.
         for obj in range(len(table2[col])):
             if id == 0:
                 table2[obj][col] = temp_col[obj]
             else:
                 table2[col][obj] = temp_col[obj]
+         # On vide la liste temporaire pour la prochaine colonne ou ligne.
         temp_col.clear()
-    nb_move += 1
-    random_nb()
+    # Si le tableau 'table2' a changé, cela signifie qu'un mouvement a été effectué.
+    if table2 != prev_positions_value:
+        # On incrémente le nombre de mouvements effectués.
+        nb_move += 1
+        random_nb()
     refresh()
     win_game()
     lose_game()
