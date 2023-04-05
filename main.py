@@ -108,11 +108,19 @@ def mix(rev, id):
             temp_col.remove("")
         # On fusionne les éléments identiques qui sont côte à côte dans la liste temporaire.
         for obj in range(len(temp_col) - 1):
-            if temp_col[obj] == temp_col[obj + 1]:
-                temp_col[obj] += temp_col[obj + 1]
-                # On met à jour le score en ajoutant la valeur fusionnée.
-                nb_score += temp_col[obj]
-                temp_col[obj + 1] = ""
+            temp_col_len = len(temp_col)
+            if rev:
+                if temp_col[temp_col_len - obj - 1] == temp_col[temp_col_len - obj - 2]:
+                    temp_col[temp_col_len - obj - 1] += temp_col[temp_col_len - obj - 2]
+                    # On met à jour le score en ajoutant la valeur fusionnée.
+                    nb_score += temp_col[temp_col_len - obj - 1]
+                    temp_col[temp_col_len - obj - 2] = ""
+            else:
+                if temp_col[obj] == temp_col[obj + 1]:
+                    temp_col[obj] += temp_col[obj + 1]
+                    # On met à jour le score en ajoutant la valeur fusionnée.
+                    nb_score += temp_col[obj]
+                    temp_col[obj + 1] = ""
         # On enlève les éléments vides de la liste temporaire.
         while "" in temp_col:
             temp_col.remove("")
@@ -130,7 +138,7 @@ def mix(rev, id):
                 table2[obj][col] = temp_col[obj]
             else:
                 table2[col][obj] = temp_col[obj]
-         # On vide la liste temporaire pour la prochaine colonne ou ligne.
+        # On vide la liste temporaire pour la prochaine colonne ou ligne.
         temp_col.clear()
     # Si le tableau 'table2' a changé, cela signifie qu'un mouvement a été effectué.
     if table2 != prev_positions_value:
