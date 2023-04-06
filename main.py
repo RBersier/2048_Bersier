@@ -51,19 +51,15 @@ labels = [[None, None, None, None],
 # fonction pour les touches et le déplacement des cases
 def key_press(event):
     global nb_move
-
     # gauche
     if event.keysym == "a" or event.keysym == "Left" or event.keysym == "A":
         mix(False, 1)
-
     # droite
     if event.keysym == "d" or event.keysym == "Right" or event.keysym == "D":
         mix(True, 1)
-
     # haut
     if event.keysym == "w" or event.keysym == "Up" or event.keysym == "W":
         mix(False, 0)
-
     # bas
     if event.keysym == "s" or event.keysym == "Down" or event.keysym == "S":
         mix(True, 0)
