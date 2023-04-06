@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="2048_RBersier" company="" webLink="http://" view-date="2023-01-30" view-index="0" gantt-divider-location="511" resource-divider-location="300" version="3.2.3230" locale="fr_CH">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Name" width="338" order="0"/>
+        <field id="tpd4" name="Begin date" width="92" order="1"/>
+        <field id="tpd5" name="End date" width="65" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="color.recent">
+            <![CDATA[#0000ff #00ff00 #0000ff #00ff00 #f4f4f4 #ff0000 #ff0000]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="210" order="0"/>
+        <field id="1" name="Default role" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="1" name="Sprint 1" color="#ff0000" meeting="false" start="2023-02-02" duration="17" complete="0" thirdDate="2023-02-06" thirdDate-constraint="0" expand="true">
+            <task id="3" name="Documentation" color="#ff0000" meeting="false" start="2023-02-02" duration="17" complete="0" thirdDate="2023-01-27" thirdDate-constraint="0" expand="true"/>
+            <task id="4" name="Création de la grille" color="#ff0000" meeting="false" start="2023-02-03" duration="1" complete="0" thirdDate="2023-01-27" thirdDate-constraint="0" expand="true"/>
+            <task id="5" name="Choisir et séléctionner les couleurs pour chaque nombres" color="#ff0000" meeting="false" start="2023-02-03" duration="1" complete="0" thirdDate="2023-01-31" thirdDate-constraint="0" expand="true"/>
+            <task id="8" name="Comment additionner les puissances de 2 identique" color="#ff0000" meeting="false" start="2023-02-09" duration="1" complete="0" thirdDate="2023-02-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="14" name="Sprint 2" color="#00ff00" meeting="false" start="2023-03-02" duration="12" complete="0" thirdDate="2023-02-16" thirdDate-constraint="0" expand="true">
+            <task id="15" name="Documentation" color="#00ff00" meeting="false" start="2023-03-02" duration="12" complete="0" thirdDate="2023-02-24" thirdDate-constraint="0" expand="true"/>
+            <task id="16" name="Gestion code sur le tassement" color="#00ff00" meeting="false" start="2023-03-02" duration="9" complete="0" thirdDate="2023-02-24" thirdDate-constraint="0" expand="true"/>
+            <task id="17" name="Recherche pour détéction d'appui de touche" color="#00ff00" meeting="false" start="2023-03-03" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="25" name="Ajout du score" color="#00ff00" meeting="false" start="2023-03-16" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="26" name="Ajout de la partie graphique + bouton" color="#00ff00" meeting="false" start="2023-03-16" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="27" name="Ajout du highscore + highscore en directe" color="#00ff00" meeting="false" start="2023-03-16" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="29" name="Sprint 3" color="#0000ff" meeting="false" start="2023-03-23" duration="11" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true">
+            <task id="30" name="Documentation" color="#0000ff" meeting="false" start="2023-03-23" duration="11" complete="0" thirdDate="2023-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="31" name="Gestion de la géneration des 2 et 4" color="#0000ff" meeting="false" start="2023-03-23" duration="2" complete="0" thirdDate="2023-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="32" name="Ajout de la fonction du bouton restart" color="#0000ff" meeting="false" start="2023-03-24" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+            <task id="33" name="Ajout de la fonction gagné" color="#0000ff" meeting="false" start="2023-03-30" duration="2" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="34" name="Ajout de la fonction pour checker les mouvement disponible" color="#0000ff" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="35" name="Ajout de la fonction perdu" color="#0000ff" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="36" name="Correction de bug" color="#0000ff" meeting="false" start="2023-04-03" duration="2" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
